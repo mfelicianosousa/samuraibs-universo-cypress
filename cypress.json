@@ -1,5 +1,12 @@
 {
     "baseUrl" : "http://localhost:3000",
     "viewportWidth" : 1440,
-    "viewportHeight" : 900
+    "viewportHeight" : 900,
+    "dbConfig":{
+        "host":"tyke.db.elephantsql.com",
+        "user":"qlptuqag",
+        "password":"jEUHkmxw4u67fSVT7iJHkFXQzaJccKlT",
+        "database":"qlptuqag",
+        "port":5432
+    }
 }
