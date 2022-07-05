@@ -4,15 +4,17 @@ import signupPage from '../support/pages/signup'
 
 describe('Cadastrar Usuário:', function () {
 
-    context('Quando o usuário é novato', function () {
-        const user = {
-            name: 'Marcelino Feliciano',
-            email: 'marcelino@samuraibs.com',
-            password: 'Abcde1234!',
-        }
+    before(function(){
+        cy.fixture('userDB').then(function(user){
+            this.user = user
+        })
+    })
+
+    context.only('Quando o usuário é novato', function () {
+    
         before(function () {
 
-            cy.task('removeUser', user.email)
+            cy.task('removeUser', this.user.email)
                 .then(function (result) {
                     console.log(result)
                 })
@@ -21,7 +23,7 @@ describe('Cadastrar Usuário:', function () {
         it('deve cadastrar com sucesso', function () {
            
             signupPage.go()
-            signupPage.form(user)     
+            signupPage.form(this.user)     
             signupPage.submit()
             signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
@@ -48,6 +50,7 @@ describe('Cadastrar Usuário:', function () {
             signupPage.go()
             signupPage.form(user)
             signupPage.submit()
+            
             signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
 
         })
