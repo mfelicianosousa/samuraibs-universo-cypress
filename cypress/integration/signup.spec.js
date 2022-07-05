@@ -23,7 +23,7 @@ describe('Cadastrar Usuário:', function () {
             signupPage.go()
             signupPage.form(user)     
             signupPage.submit()
-            signupPage.toast.shouldHaveTest('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+            signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
         })
 
@@ -38,18 +38,8 @@ describe('Cadastrar Usuário:', function () {
         }
 
         before(function () {
-            cy.task('removeUser', user.email)
-                .then(function (result) {
-                    console.log(result)
-                })
 
-            cy.request(
-                'POST',
-                'http://localhost:3333/users',
-                user
-            ).then(function (response) {
-                expect(response.status).to.eq(200)
-            })
+            cy.postUser(user)
 
         })
 
@@ -58,7 +48,7 @@ describe('Cadastrar Usuário:', function () {
             signupPage.go()
             signupPage.form(user)
             signupPage.submit()
-            signupPage.toast.shouldHaveTest('Email já cadastrado para outro usuário.')
+            signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
 
         })
     })
@@ -75,7 +65,7 @@ describe('Cadastrar Usuário:', function () {
             signupPage.go()
             signupPage.form(user)
             signupPage.submit()
-            signupPage.alertHaveText('Informe um email válido')
+            signupPage.alert.haveText('Informe um email válido')
         })
     })
 
@@ -104,12 +94,12 @@ describe('Cadastrar Usuário:', function () {
 
         afterEach(function(){
 
-            signupPage.alertHaveText('Pelo menos 6 caracteres')
+            signupPage.alert.haveText('Pelo menos 6 caracteres')
         })
    
     })
 
-    context.only('quando não preencho nenhum dos campos', function() {
+    context('quando não preencho nenhum dos campos', function() {
 
         const alertMessages = [
             'Nome é obrigatório',
@@ -125,7 +115,7 @@ describe('Cadastrar Usuário:', function () {
         alertMessages.forEach( function( alert ) {
 
             it('deve exibir '+alert.toLowerCase(), function () {
-                signupPage.alertHaveText(alert) 
+                signupPage.alert.haveText(alert) 
             })
         })
     })
