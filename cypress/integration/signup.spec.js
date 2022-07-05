@@ -1,20 +1,22 @@
-import faker from '@faker-js/faker'
-import signup from '../support/pages/signup'
 import signupPage from '../support/pages/signup'
 
 describe('Cadastrar Usuário:', function () {
 
     before(function(){
-        cy.fixture('userDB').then(function(user){
-            this.user = user
+        cy.fixture('signupDB').then(function(signup){
+            this.success = signup.success 
+            this.email_dup = signup.email_duplicate
+            this.email_inv = signup.email_invalid
+            this.short_passw = signup.short_password
+
         })
     })
 
-    context.only('Quando o usuário é novato', function () {
+    context('Quando o usuário é novato', function () {
     
         before(function () {
 
-            cy.task('removeUser', this.user.email)
+            cy.task('removeUser', this.success.email)
                 .then(function (result) {
                     console.log(result)
                 })
@@ -23,7 +25,7 @@ describe('Cadastrar Usuário:', function () {
         it('deve cadastrar com sucesso', function () {
            
             signupPage.go()
-            signupPage.form(this.user)     
+            signupPage.form(this.success)     
             signupPage.submit()
             signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
@@ -32,23 +34,17 @@ describe('Cadastrar Usuário:', function () {
     })
 
     context('quando o email já existe', function () {
-        const user = {
-            name: 'Pedro Santos',
-            email: 'pedro@samuraibs.com',
-            password: 'Abcde1234!',
-            is_provider: true
-        }
-
+      
         before(function () {
 
-            cy.postUser(user)
+            cy.postUser(this.email_dup)
 
         })
 
         it('não deve cadastrar o usuário', function () {
             
             signupPage.go()
-            signupPage.form(user)
+            signupPage.form(this.email_dup)
             signupPage.submit()
             
             signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
@@ -57,16 +53,11 @@ describe('Cadastrar Usuário:', function () {
     })
 
     context('quando o email é incorreto', function () {
-        const user = {
-            name: 'Elizabeth Olsen',
-            email: 'elizabeth.yahoo.com',
-            password: 'Abcde1234!'
-        }
-
+        
         it('deve exibir mensagem de alerta', function () {
             
             signupPage.go()
-            signupPage.form(user)
+            signupPage.form(this.email_inv)
             signupPage.submit()
             signupPage.alert.haveText('Informe um email válido')
         })
@@ -84,12 +75,8 @@ describe('Cadastrar Usuário:', function () {
 
             it('não deve cadastrar com a senha : '+p, function () {
  
-                const user = {
-                    name: 'Jason Olsen',
-                    email: 'json@yahoo.com',
-                    password: p
-                }
-                signupPage.form(user)
+                this.short_passw.password = p
+                signupPage.form(this.short_passw)
                 signupPage.submit()
             })
 

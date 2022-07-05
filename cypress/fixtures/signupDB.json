@@ -1,0 +1,25 @@
+{
+  "success": {
+    "name": "Marcelino Sousa",
+    "email": "marcelino@samuraibs.com",
+    "password": "Abcde12345$"
+
+  },
+  "email_duplicate" : {
+    "name":"Pedro Santos",
+    "email":"pedro@samuraibs.com",
+    "password":"Abcde1234!",
+    "is_provider":true
+  },
+  "email_invalid": {
+    "name":"Elizabeth Olsen",
+    "email":"elizabeth.yahoo.com",
+    "password":"Abcde1234!"
+  },
+  "short_password":{
+    "name":"Jason Olsen",
+    "email":"json@yahoo.com",
+    "password": null
+  }
+
+}
