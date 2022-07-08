@@ -29,13 +29,23 @@ describe('dashboard', function(){
 
         it('o mesmo deve ser exibido no dashboard', function(){
             cy.log('O id do Ramon é '+Cypress.env('providerId'))
-            console.log(data)
+            cy.createAppointment();
 
         })
 
 
     })
 
+})
+
+import moment from 'moment'
+
+Cypress.Commands.add('createAppointment',function(){
+
+    let now = new Date()
+    now.setDate(now.getDate() + 1)
+    const day = moment(now).format('YYYY-MM-DD 14:00:00')
+    cy.log(day) 
 })
 
 Cypress.Commands.add('setProviderId', function( providerEmail){
