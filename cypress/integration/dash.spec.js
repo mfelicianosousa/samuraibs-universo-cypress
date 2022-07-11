@@ -1,11 +1,8 @@
-import loginPage from '../support/pages/login'
 import dashPage from '../support/pages/dash'
 import {customer,provider, appointment} from '../support/factories/dash'
 
 describe('dashboard', function(){
     context('quando o cliente faz um agendamento no app mobile',function(){
-
-           
 
         before(function(){
             cy.postUser(provider)
@@ -18,12 +15,10 @@ describe('dashboard', function(){
         })
 
         it('o mesmo deve ser exibido no dashboard', function(){
-            // cy.log('O id do Ramon é '+Cypress.env('providerId'))
-            loginPage.go()
-            loginPage.form(provider)
-            loginPage.submit()
-            dashPage.calendarShoudBeVisible()
             const day = Cypress.env('appointmentDay')
+
+            cy.uiLogin(provider)
+            dashPage.calendarShoudBeVisible()
             dashPage.selectDay(day)   
             dashPage.appointmentShouldBe(customer, appointment.hour) 
           
