@@ -9,6 +9,7 @@
         "user":"qlptuqag",
         "password":"jEUHkmxw4u67fSVT7iJHkFXQzaJccKlT",
         "database":"qlptuqag",
-        "port":5432
-    }
+        "port":5432    
+    },
+    "projectId": "d9tzwg"
 }
